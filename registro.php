@@ -1,17 +1,21 @@
 <?php
 include('config.php');
 
- if(isset($_POST['submit']))
- {
-   $email = $_POST['email'];
-   $nome = $_POST['nome'];
-   $senha = $_POST['senha'];
+if (isset($_POST['submit'])) {
+    $email = $_POST['email'];
+    $nome = $_POST['nome'];
+    $senha = $_POST['senha'];
 
-  $result = mysqli_query($conn, "INSERT INTO usuario(email,nome,senha)
-   VALUES('$email','$nome','$senha')");
-     header("Location: login.php");
- }
+    // Validação de email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "O email fornecido não é válido. Por favor, insira um email correto.";
+        exit(); // Interrompe a execução do script se o email for inválido
+    }
 
+    // Inserção no banco de dados
+    $result = mysqli_query($conn, "INSERT INTO usuario(email, nome, senha) VALUES('$email', '$nome', '$senha')");
+    header("Location: login.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +24,7 @@ include('config.php');
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página de Cadastro</title>
-  <link rel="stylesheet" href="../css/style2.css">
+  <link rel="stylesheet" href="style2.css">
 </head>
 <body>
   <div class="registro">
